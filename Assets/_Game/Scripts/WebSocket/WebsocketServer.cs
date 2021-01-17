@@ -12,7 +12,7 @@ public class WebsocketServer : MonoBehaviour {
     public static string SERVER_URL = "wss://chatgolang.herokuapp.com/ws/" + ROOM_ID + "/" + USER_ID;
     public static string ROOM_ID = "main";
     public static string USER_ID = "user";
-    public static float CHAT_HEIGHT = 100f;
+    public static float CHAT_HEIGHT = 140f;
 
     public TMP_InputField chatInput;
     public GameObject chatObj;
@@ -48,6 +48,9 @@ public class WebsocketServer : MonoBehaviour {
             GameObject go = Instantiate(chatObj, content);
             Vector2 size = content.GetComponent<RectTransform>().sizeDelta;
             content.GetComponent<RectTransform>().sizeDelta = new Vector2(size.x, size.y + CHAT_HEIGHT);
+            Vector2 pos = content.GetComponent<RectTransform>().anchoredPosition;
+            content.GetComponent<RectTransform>().anchoredPosition = new Vector2(pos.x, pos.y + CHAT_HEIGHT);
+            go.transform.GetChild(1).GetComponentInChildren<TextMeshProUGUI>().text = message;
         };
 
         //InvokeRepeating("SendWebSocketMessage", 0.0f, 0.3f);
@@ -63,6 +66,7 @@ public class WebsocketServer : MonoBehaviour {
 
     public void SendChat() {
         SendWebSocketMessage();
+        chatInput.text = "";
     }
 
     async void SendWebSocketMessage() {
