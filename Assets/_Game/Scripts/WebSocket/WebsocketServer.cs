@@ -9,7 +9,8 @@ public class WebsocketServer : MonoBehaviour {
     public static WebsocketServer Instance;
     //wss://https://chatgolang.herokuapp.com/ws/roomId/userId
 
-    public static string SERVER_URL = "wss://chatgolang.herokuapp.com/ws/" + ROOM_ID + "/" + USER_ID;
+    //public static string SERVER_URL = "ws://chatgolang.herokuapp.com/ws/" + ROOM_ID + "/" + USER_ID;
+    public static string SERVER_URL = "ws://fishtankserver.herokuapp.com/ws";
     public static string ROOM_ID = "main";
     public static string USER_ID = "user";
     public static float CHAT_HEIGHT = 140f;
@@ -29,21 +30,21 @@ public class WebsocketServer : MonoBehaviour {
         websocket = new WebSocket(SERVER_URL);
 
         websocket.OnOpen += () => {
-            Debug.Log("Connection open!");
+            MyDebug.Log("Connection open!");
         };
 
         websocket.OnError += (e) => {
-            Debug.Log("Error! " + e);
+            MyDebug.Log("Error! " + e);
         };
 
         websocket.OnClose += (e) => {
-            Debug.Log("Connection closed!");
+            MyDebug.Log("Connection closed!");
         };
 
         websocket.OnMessage += (bytes) => {
             var message = System.Text.Encoding.UTF8.GetString(bytes);
 
-            Debug.Log("Receive Message: " + message);
+            MyDebug.Log("Receive Message: " + message);
 
             GameObject go = Instantiate(chatObj, content);
             Vector2 size = content.GetComponent<RectTransform>().sizeDelta;
